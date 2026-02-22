@@ -57,3 +57,29 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## WhatsApp Cloud API webhook quick test
+
+1. Add WhatsApp credentials to `.env`:
+
+   ```dotenv
+   WHATSAPP_TOKEN=your_meta_permanent_or_temp_access_token
+   PHONE_NUMBER_ID=your_phone_number_id
+   VERIFY_TOKEN=your_custom_verify_token
+   ```
+
+2. Expose Laravel with ngrok (from host machine):
+
+   ```bash
+   ngrok http 8000
+   ```
+
+   Use `https://<ngrok-id>.ngrok-free.app/webhook/whatsapp` as your Meta webhook callback URL.
+
+3. In Meta App Dashboard > WhatsApp > Configuration:
+   - Callback URL: `https://<ngrok-id>.ngrok-free.app/webhook/whatsapp`
+   - Verify token: same value as `VERIFY_TOKEN`
+   - Subscribe to the `messages` field.
+
+4. Send a message from a test WhatsApp number to your configured test business number.
+   Laravel will receive the webhook and reply with `Thanks for your message: <your text>`.
